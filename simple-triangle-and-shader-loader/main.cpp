@@ -30,6 +30,9 @@ int main()
     glewExperimental = GL_TRUE;
     //Init SDL & OpenGL
     SDL_Init(SDL_INIT_VIDEO);
+    SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 3 );
+    SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 3 );
+    SDL_GL_SetAttribute( SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE );
     GLenum error = glewInit();
     std::cout << error << std::endl;
     if (error != GLEW_OK)
