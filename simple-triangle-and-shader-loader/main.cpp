@@ -26,30 +26,32 @@ void renderTriangle();
 
 int main()
 {
-    //os x compatibility :(
-    glewExperimental = GL_TRUE;
     //Init SDL & OpenGL
     SDL_Init(SDL_INIT_VIDEO);
-    SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 3 );
-    SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 3 );
     SDL_GL_SetAttribute( SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE );
+    SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+    SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 3);
+    SDLWrapper sdl(640, 480);
+
+    glewExperimental = GL_TRUE;
     GLenum error = glewInit();
-    std::cout << error << std::endl;
-    if (error != GLEW_OK)
+    if (error != GLEW_OK) {
+        std::cout << glewGetErrorString(error) << std::endl;
         return 1;
+    }
     //end initialization
     
-    SDLWrapper sdl(640, 480);
+    ShaderLoader vertex(GL_VERTEX_SHADER, "shaders/vertex.glsl");
+    ShaderLoader fragment(GL_FRAGMENT_SHADER, "shaders/fragment.glsl");
+    // ShaderLoader vertex(GL_VERTEX_SHADER, "blah.txt");
+    vertex.compileShader();
+    fragment.compileShader();
 
     while(sdl.userRequestedQuit() == false)
     {
-        glClearColor(0,1,1,1);
-        glClear(GL_COLOR_BUFFER_BIT);
-        SDL_GL_SwapWindow(sdl.window);
+        //Do rendering here
     }
 
-    ShaderLoader loader(GL_VERTEX_SHADER, "blah.txt");
-    loader.debug();
 
     SDL_Quit();
     return 0;
