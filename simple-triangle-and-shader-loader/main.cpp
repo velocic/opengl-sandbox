@@ -17,7 +17,7 @@
 
 //mine
 #include <sdlwrapper.h>
-#include <shaderloader.h>
+#include <shader.h>
 
 void importShaders();
 void defineTriangle();
@@ -41,11 +41,10 @@ int main()
     }
     //end initialization
     
-    ShaderLoader vertex(GL_VERTEX_SHADER, "shaders/vertex.glsl");
-    ShaderLoader fragment(GL_FRAGMENT_SHADER, "shaders/fragment.glsl");
-    // ShaderLoader vertex(GL_VERTEX_SHADER, "blah.txt");
-    vertex.compileShader();
-    fragment.compileShader();
+    Shader vertex(GL_VERTEX_SHADER, "shaders/vertex.glsl");
+    Shader fragment(GL_FRAGMENT_SHADER, "shaders/fragment.glsl");
+    vertex.compile();
+    fragment.compile();
 
     while(sdl.userRequestedQuit() == false)
     {
