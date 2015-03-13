@@ -34,6 +34,9 @@ void Shader::logCompilationError(const GLuint &shader)
 
 bool Shader::compile()
 {
+    //if we've already created a shader, unload it before we recompile
+    unload();
+
     //grab the shader source from text file
     importSourceFromFile(shaderSource, sourceFilePath);
 
@@ -51,11 +54,16 @@ bool Shader::compile()
     if (compiledProperly == GL_FALSE)
     {
         logCompilationError(shader);
-        glDeleteShader(shader);
+        unload();
         return false;
     }
 
     return true;
+}
+
+GLuint Shader::getOGLHandle()
+{
+    return shader;
 }
 
 void Shader::unload()
@@ -63,4 +71,6 @@ void Shader::unload()
     if (shader != 0) {
         glDeleteShader(shader);
     }
+
+    shader = 0;
 }

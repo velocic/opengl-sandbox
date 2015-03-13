@@ -14,10 +14,12 @@
 //standard c++
 #include <iostream>
 #include <string>
+#include <vector>
 
 //mine
 #include <sdlwrapper.h>
 #include <shader.h>
+#include <programlinker.h>
 
 void importShaders();
 void defineTriangle();
@@ -43,8 +45,10 @@ int main()
     
     Shader vertex(GL_VERTEX_SHADER, "shaders/vertex.glsl");
     Shader fragment(GL_FRAGMENT_SHADER, "shaders/fragment.glsl");
-    vertex.compile();
-    fragment.compile();
+    //load shaders into vector
+    std::vector<Shader> shaders = {vertex, fragment};
+    //pass vector into programlinker
+    ProgramLinker program(shaders);
 
     while(sdl.userRequestedQuit() == false)
     {

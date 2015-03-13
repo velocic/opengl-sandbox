@@ -22,6 +22,7 @@ class Shader
             sourceFilePath(sourceFilePath) {};
         ~Shader();
         bool compile();
+        GLuint getOGLHandle();
         void unload();
 };
 
