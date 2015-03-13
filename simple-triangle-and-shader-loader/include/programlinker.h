@@ -17,6 +17,7 @@ class ProgramLinker
     public:
         ProgramLinker(std::vector<Shader> shaders) : shaders(shaders) {};
         ~ProgramLinker();
+        GLuint getProgram();
         bool link();
         void unload();
 };

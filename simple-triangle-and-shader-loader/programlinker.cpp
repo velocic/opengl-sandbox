@@ -38,6 +38,11 @@ void ProgramLinker::logLinkError(const GLuint &program)
     std::cout << std::endl;
 }
 
+GLuint ProgramLinker::getProgram()
+{
+    return program;
+}
+
 bool ProgramLinker::link()
 {
     bool linkedSuccessfully = true;
