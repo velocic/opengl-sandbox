@@ -4,9 +4,10 @@ project(Textured2DTriangle)
 
 include_directories("${PROJECT_SOURCE_DIR}/include")
 
-# set(COMPILE_FLAGS "-std=c++11 -framework OpenGL")
 if(${APPLE})
     set(COMPILE_FLAGS "-std=c++11 -framework OpenGL")
+elseif(${WIN32})
+    set(COMPILE_FLAGS "-std=c++11 -lopengl32")
 else()
     set(COMPILE_FLAGS "-std=c++11 -lGL")
 endif()
