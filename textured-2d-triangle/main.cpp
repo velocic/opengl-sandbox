@@ -17,9 +17,22 @@ int main()
     //Start SDL
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS);
     IMG_Init(IMG_INIT_PNG);
+    //request a core OpenGL profile
+    SDL_GL_SetAttribute( SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE );
+    SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+    SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 3);
 
     Window window(640, 480);
-    Texture texture("hazard.png");
+    //start OpenGL
+    glewExperimental = GL_TRUE;
+    GLenum error = glewInit();
+    if (error != GLEW_OK) {
+        std::cout << glewGetErrorString(error) << std::endl;
+        return 1;
+    }
+
+    // Texture texture("hazard.png");
+    Texture texture("hazard-rotated.png");
     texture.createGLTexture();
 
 
@@ -30,8 +43,6 @@ int main()
     std::vector<Shader> shaders = {vertex, fragment};
     ProgramLinker program(shaders);
     program.link();
-
-    std::cout << "got past program link" << std::endl;
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture.get());
