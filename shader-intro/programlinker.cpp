@@ -1,5 +1,8 @@
 #include <programlinker.h>
 
+//TODO: Add addAttribute function for adding attributes to the program. keep a count of them.
+//for reference, gfx tutorial 8 @ 30:00
+
 ProgramLinker::~ProgramLinker()
 {
     unload();
