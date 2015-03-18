@@ -2,6 +2,9 @@
 
 //TODO: Add addAttribute function for adding attributes to the program. keep a count of them.
 //for reference, gfx tutorial 8 @ 30:00
+//Additionally, probably a good idea to add use/unuse functions that call glUseProgram(program) and
+//glUseProgram(0) respectively. That way, we don't have to have a gitter for our programID and can
+//keep it encapsulated
 
 ProgramLinker::~ProgramLinker()
 {
