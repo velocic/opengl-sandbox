@@ -21,7 +21,7 @@ void Shader::importSourceFromFile(std::string &shaderSource, const std::string &
     shaderSource.reserve(inFile.tellg());
     inFile.seekg(0, std::ios::beg);
     shaderSource.assign(
-        (std::istreambuf_iterator<char>(inFile),
+        (std::istreambuf_iterator<char>(inFile)),
         std::istreambuf_iterator<char>()
     );
 }

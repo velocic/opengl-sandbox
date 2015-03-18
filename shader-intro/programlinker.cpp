@@ -1,14 +1,13 @@
 #include <programlinker.h>
 
-//TODO: Add addAttribute function for adding attributes to the program. keep a count of them.
-//for reference, gfx tutorial 8 @ 30:00
-//Additionally, probably a good idea to add use/unuse functions that call glUseProgram(program) and
-//glUseProgram(0) respectively. That way, we don't have to have a gitter for our programID and can
-//keep it encapsulated
-
 ProgramLinker::~ProgramLinker()
 {
     unload();
+}
+
+void ProgramLinker::addAttribute(const std::string &attributeName)
+{
+    glBindAttribLocation(program, numAttributes++, attributeName.c_str());
 }
 
 void ProgramLinker::compileAndAttachShaders(std::vector<Shader> &shaders, const GLuint &program)
@@ -44,11 +43,6 @@ void ProgramLinker::logLinkError(const GLuint &program)
     std::cout << std::endl;
 }
 
-GLuint ProgramLinker::getProgram()
-{
-    return program;
-}
-
 bool ProgramLinker::link()
 {
     bool linkedSuccessfully = true;
@@ -79,6 +73,14 @@ bool ProgramLinker::link()
     return linkedSuccessfully;
 }
 
+void ProgramLinker::use()
+{
+    glUseProgram(program);
+    for (int i = 0; i < numAttributes; ++i) {
+        glEnableVertexAttribArray(i);
+    }
+}
+
 void ProgramLinker::unload()
 {
     detachAndUnloadShaders(shaders, program);
@@ -88,4 +90,12 @@ void ProgramLinker::unload()
     }
 
     program = 0;
+}
+
+void ProgramLinker::unuse()
+{
+    glUseProgram(0);
+    for (int i = 0; i < numAttributes; ++i) {
+        glDisableVertexAttribArray(i);
+    }
 }
