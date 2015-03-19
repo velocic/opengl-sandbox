@@ -73,8 +73,6 @@ void Sprite::draw()
 {
     glBindBuffer(GL_ARRAY_BUFFER, vboID);
 
-    glEnableVertexAttribArray(0);
-
     //this is the position attribute pointer
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)offsetof(Vertex, position));
 
