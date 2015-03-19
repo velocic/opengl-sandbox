@@ -36,6 +36,9 @@ void ProgramLinker::detachAndUnloadShaders(std::vector<Shader> &shaders, const G
         glDetachShader(program, shader.getOGLHandle());
         shader.unload();
     }
+
+    //There is an error here where we call detach shader with a shader id of 0. this is because we call unload
+    //at the beginning of link. need to fix
 }
 
 void ProgramLinker::logLinkError(const GLuint &program)
