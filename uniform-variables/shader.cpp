@@ -62,8 +62,7 @@ bool Shader::compile()
     //retrieve the compile status of the shader from the GPU
     GLint compiledProperly = 0;
     glGetShaderiv(shader, GL_COMPILE_STATUS, &compiledProperly);
-    if (compiledProperly == GL_FALSE)
-    {
+    if (compiledProperly == GL_FALSE) {
         logCompilationError(shader);
         unload();
         return false;
