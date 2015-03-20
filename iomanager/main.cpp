@@ -5,6 +5,7 @@
 #include <window.h>
 #include <iostream>
 #include <vector>
+#include <ioutils.h>
 #include <sprite.h>
 
 int main()

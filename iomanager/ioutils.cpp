@@ -1,6 +1,6 @@
 #include <ioutils.h>
 
-bool IOUtils::readFileToBuffer(std::string filePath, std::vector<uint8_t> &buffer)
+bool IOUtils::readFileToBuffer(std::string filePath, std::vector<char> &buffer)
 {
     std::ifstream file(filePath, std::ios::binary);
 
@@ -10,11 +10,11 @@ bool IOUtils::readFileToBuffer(std::string filePath, std::vector<uint8_t> &buffe
     }
 
     file.seekg(0, std::ios::end);
-    int size = file.tellg();
+    int fileSize = file.tellg();
     file.seekg(0, std::ios::beg);
 
     //make sure we don't load the file header (if present)
-    size -= file.tellg();
+    fileSize -= file.tellg();
 
     //read the file
     buffer.resize(fileSize);

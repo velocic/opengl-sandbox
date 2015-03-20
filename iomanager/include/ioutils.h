@@ -7,7 +7,7 @@
 
 namespace IOUtils
 {
-    bool readFileToBuffer(std::string filePath, std::vector<uint8_t> &buffer);
+    bool readFileToBuffer(std::string filePath, std::vector<char> &buffer);
 }
 
 #endif

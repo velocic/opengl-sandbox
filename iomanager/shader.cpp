@@ -13,10 +13,6 @@ void Shader::importSourceFromFile(std::string &shaderSource, const std::string &
         std::cout << "Failed to open " << sourceFilePath << "." << std::endl;
         //TODO: throw an exception here, or something
     }
-    // auto end = std::istreambuf_iterator<char>();
-    // for (auto iterator = std::istreambuf_iterator<char>(inFile); iterator != end; ++iterator) {
-    //     shaderSource += (*iterator);
-    // }
     inFile.seekg(0, std::ios::end);
     shaderSource.reserve(inFile.tellg());
     inFile.seekg(0, std::ios::beg);
