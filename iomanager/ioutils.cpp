@@ -23,3 +23,48 @@ bool IOUtils::readFileToBuffer(std::string filePath, std::vector<char> &buffer)
 
     return true;
 }
+
+GLTexture IOUtils::loadPNG(std::string filePath)
+{
+    GLTexture texture = {};
+
+    std::vector<unsigned char> rawPNG;
+    std::vector<unsigned char> decodedPNG;
+    unsigned long width;
+    unsigned long height;
+
+    if (!readFileToBuffer(filePath, rawPNG)) {
+        std::cout << "Failed to load " << filePath << ". The file was likely not found." << std::endl;
+        return texture;
+    }
+
+    int errorCode = decodePNG(decodedPNG, width, height, &(rawPNG[0]), rawPNG.size());
+
+    if (errorCode != 0) {
+        std::cout << "decodePNG failed with error: " << errorCode << std::endl;
+        return texture;
+    }
+
+    //Create a new empty texture on the GPU
+    glGenTextures(1, &(texture.id));
+    //Bind the empty texture so we can load data into it
+    glBindTexture(GL_TEXTURE_2D, texture.id);
+    //Load the actual texture data into the empty texture object on the GPU
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &(decodedPNG[0]));
+
+    //Set some parameters related to our texture
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    //Set magnification filter
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    //Set minification filter
+    //Note: MipMapping is where multiple textures are generated at
+    //progressively lower resolutions than the main texture.
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+
+    glGenerateMipmap(GL_TEXTURE_2D);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    return texture;
+}
