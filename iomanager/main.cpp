@@ -7,6 +7,7 @@
 #include <vector>
 #include <ioutils.h>
 #include <sprite.h>
+#include <gltexture.h>
 
 int main()
 {
@@ -33,6 +34,10 @@ int main()
     colorProgram.link();
     colorProgram.addAttribute("vertexPosition");
     colorProgram.addAttribute("vertexColor");
+
+    //lets load up a texture
+    GLTexture playerTexture;
+    playerTexture = IOUtils::loadPNG("textures/PNG/CharacterRight_Standing.png");
 
     GLuint timeLocation = 0;
     float time = 0;

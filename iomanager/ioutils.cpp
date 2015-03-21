@@ -1,6 +1,6 @@
 #include <ioutils.h>
 
-bool IOUtils::readFileToBuffer(std::string filePath, std::vector<char> &buffer)
+bool IOUtils::readFileToBuffer(std::string filePath, std::vector<unsigned char> &buffer)
 {
     std::ifstream file(filePath, std::ios::binary);
 
@@ -18,7 +18,7 @@ bool IOUtils::readFileToBuffer(std::string filePath, std::vector<char> &buffer)
 
     //read the file
     buffer.resize(fileSize);
-    file.read(&(buffer[0]), fileSize);
+    file.read((char *)&(buffer[0]), fileSize);
     file.close();
 
     return true;
@@ -38,12 +38,15 @@ GLTexture IOUtils::loadPNG(std::string filePath)
         return texture;
     }
 
-    int errorCode = decodePNG(decodedPNG, width, height, &(rawPNG[0]), rawPNG.size());
+    int errorCode = decodePNG(decodedPNG, width, height, &(rawPNG[0]), rawPNG.size(), true);
 
     if (errorCode != 0) {
         std::cout << "decodePNG failed with error: " << errorCode << std::endl;
         return texture;
     }
+
+    texture.width = width;
+    texture.height = height;
 
     //Create a new empty texture on the GPU
     glGenTextures(1, &(texture.id));
