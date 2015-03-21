@@ -2,9 +2,11 @@
 
 layout(location=0) in vec2 vertexPosition;
 layout(location=1) in vec4 vertexColor;
+layout(location=2) in vec2 vertexUV;
 
 out vec2 fragmentPosition;
 out vec4 fragmentColor;
+out vec2 fragmentUV;
 
 void main()
 {
@@ -13,6 +15,8 @@ void main()
     gl_Position.w = 1.0;
 
     fragmentPosition = vertexPosition;
-
     fragmentColor = vertexColor;
+
+    //convert to OpenGL's orientation format
+    fragmentUV = vec2(vertexUV.x, vertexUV.y * -1);
 }

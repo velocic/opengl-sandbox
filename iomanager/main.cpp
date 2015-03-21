@@ -34,12 +34,14 @@ int main()
     colorProgram.link();
     colorProgram.addAttribute("vertexPosition");
     colorProgram.addAttribute("vertexColor");
+    colorProgram.addAttribute("vertexUV");
 
     //lets load up a texture
     GLTexture playerTexture;
     playerTexture = IOUtils::loadPNG("textures/PNG/CharacterRight_Standing.png");
 
     GLuint timeLocation = 0;
+    GLint textureLocation = 0;
     float time = 0;
     while (!window.userRequestedExit()) {
         time += .01;
@@ -50,12 +52,17 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         colorProgram.use();
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, playerTexture.id);
+        textureLocation = colorProgram.getUniformLocation("playerTexture");
+        glUniform1i(textureLocation, 0);
         timeLocation = colorProgram.getUniformLocation("time");
-        //send time to the timeLocation uniform var in the fragment shader
+        // send time to the timeLocation uniform var in the fragment shader
         glUniform1f(timeLocation, time);
         sprite.draw();
         colorProgram.unuse();
 
+        glBindTexture(GL_TEXTURE_2D, 0);
         //Show the rendered screen
         SDL_GL_SwapWindow(window.window);
     }
