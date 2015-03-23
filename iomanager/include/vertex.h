@@ -1,7 +1,8 @@
 #ifndef VERTEX_H
 #define VERTEX_H
 
-#include <GL/glew.h>
+#include <GL/gl3w.h>
+
 //Note: Vertex data should be a multiple of 4 bytes
 struct Vertex
 {

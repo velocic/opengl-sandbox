@@ -65,6 +65,7 @@ GLTexture IOUtils::loadPNG(std::string filePath)
     //progressively lower resolutions than the main texture.
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 
+    glEnable(GL_TEXTURE_2D);
     glGenerateMipmap(GL_TEXTURE_2D);
 
     glBindTexture(GL_TEXTURE_2D, 0);

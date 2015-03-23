@@ -1,7 +1,7 @@
 #ifndef PROGRAMLINKER_H
 #define PROGRAMLINKER_H
 
-#include <GL/glew.h>
+#include <GL/gl3w.h>
 #include <iostream>
 #include <shader.h>
 #include <vector>

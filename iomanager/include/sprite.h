@@ -1,7 +1,7 @@
 #ifndef SPRITE_H
 #define SPRITE_H
 
-#include <GL/glew.h>
+#include <GL/gl3w.h>
 
 class Sprite
 {

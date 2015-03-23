@@ -1,12 +1,12 @@
-#include <GL/glew.h>
+#include <GL/gl3w.h>
 #include <SDL2/SDL.h>
+#include <iostream>
 #include <shader.h>
 #include <programlinker.h>
 #include <window.h>
-#include <iostream>
-#include <vector>
 #include <ioutils.h>
 #include <sprite.h>
+#include <vector>
 #include <gltexture.h>
 
 int main()
@@ -18,11 +18,10 @@ int main()
 
     //Open a window (and create a GL context)
     Window window("Shader loading!", 640, 480);
-    //init glew
-    GLenum initStatus = glewInit();
-    if (initStatus != GLEW_OK) {
-        std::cout << "glewInit() failed: " << glewGetErrorString(initStatus) << std::endl;
-        return 1;
+    //init gl3w
+    if (gl3wInit() < 0) {
+        std::cout << "gl3w failed to initialize OpenGL" << std::endl;
+        return -1;
     }
 
     Sprite sprite;
