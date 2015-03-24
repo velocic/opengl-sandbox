@@ -24,7 +24,7 @@ GLuint ProgramLinker::getUniformLocation(const std::string &uniformName)
 void ProgramLinker::compileAndAttachShaders(std::vector<Shader> &shaders, const GLuint &program)
 {
     //TODO: we should abort if any shader fails to compile
-    for (Shader shader : shaders) {
+    for (Shader &shader : shaders) {
         shader.compile();
         shader.attachToProgram(program);
     }
@@ -32,7 +32,7 @@ void ProgramLinker::compileAndAttachShaders(std::vector<Shader> &shaders, const 
 
 void ProgramLinker::detachAndUnloadShaders(std::vector<Shader> &shaders, const GLuint &program)
 {
-    for (Shader shader : shaders) {
+    for (Shader &shader : shaders) {
         shader.detachFromProgram(program);
         shader.unload();
     }
@@ -65,9 +65,6 @@ bool ProgramLinker::link()
     //initialize a program object
     program = glCreateProgram();
 
-    std::cout << "shaders before compiling" << std::endl;
-    std::cout << shaders[0].shader << std::endl;
-    std::cout << shaders[1].shader << std::endl;
     //attach the shaders to the program
     compileAndAttachShaders(shaders, program);
 
@@ -82,10 +79,6 @@ bool ProgramLinker::link()
         unload();
         return false;
     }
-
-    std::cout << "shaders after compiling" << std::endl;
-    std::cout << shaders[0].shader << std::endl;
-    std::cout << shaders[1].shader << std::endl;
     
     //done linking, detach the shaders now
     detachAndUnloadShaders(shaders, program);

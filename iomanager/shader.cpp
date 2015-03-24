@@ -76,8 +76,6 @@ bool Shader::compile()
         return false;
     }
 
-    std::cout << "Shader during compile" << shader << std::endl;
-
     return true;
 }
 
