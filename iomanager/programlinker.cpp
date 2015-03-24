@@ -26,14 +26,14 @@ void ProgramLinker::compileAndAttachShaders(std::vector<Shader> &shaders, const 
     //TODO: we should abort if any shader fails to compile
     for (Shader shader : shaders) {
         shader.compile();
-        glAttachShader(program, shader.getOGLHandle());
+        shader.attachToProgram(program);
     }
 }
 
 void ProgramLinker::detachAndUnloadShaders(std::vector<Shader> &shaders, const GLuint &program)
 {
     for (Shader shader : shaders) {
-        glDetachShader(program, shader.getOGLHandle());
+        shader.detachFromProgram(program);
         shader.unload();
     }
 
@@ -59,13 +59,15 @@ void ProgramLinker::logLinkError(const GLuint &program)
 
 bool ProgramLinker::link()
 {
-    bool linkedSuccessfully = true;
     //if the program has previously been loaded, unload it
     unload();
 
     //initialize a program object
     program = glCreateProgram();
 
+    std::cout << "shaders before compiling" << std::endl;
+    std::cout << shaders[0].shader << std::endl;
+    std::cout << shaders[1].shader << std::endl;
     //attach the shaders to the program
     compileAndAttachShaders(shaders, program);
 
@@ -78,13 +80,17 @@ bool ProgramLinker::link()
     {
         logLinkError(program);
         unload();
-        linkedSuccessfully = false;
+        return false;
     }
+
+    std::cout << "shaders after compiling" << std::endl;
+    std::cout << shaders[0].shader << std::endl;
+    std::cout << shaders[1].shader << std::endl;
     
     //done linking, detach the shaders now
     detachAndUnloadShaders(shaders, program);
     
-    return linkedSuccessfully;
+    return true;
 }
 
 void ProgramLinker::use()
@@ -97,8 +103,6 @@ void ProgramLinker::use()
 
 void ProgramLinker::unload()
 {
-    detachAndUnloadShaders(shaders, program);
-
     if (program != 0) {
         glDeleteProgram(program);
     }

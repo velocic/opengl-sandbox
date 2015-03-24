@@ -24,13 +24,18 @@ int main()
         return -1;
     }
 
+
     Sprite sprite;
     sprite.init(-1.0f, -1.0f, 2.0f, 2.0f);
     Shader frag(GL_FRAGMENT_SHADER, "shaders/colorshading.frag");
     Shader vert(GL_VERTEX_SHADER, "shaders/colorshading.vert");
     std::vector<Shader> shaders = {frag, vert};
     ProgramLinker colorProgram(shaders);
-    colorProgram.link();
+
+    if (!colorProgram.link()) {
+        std::cout << "program failed to link! aborting." << std::endl;
+        return -1;
+    }
     colorProgram.addAttribute("vertexPosition");
     colorProgram.addAttribute("vertexColor");
     colorProgram.addAttribute("vertexUV");

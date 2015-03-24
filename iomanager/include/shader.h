@@ -13,16 +13,17 @@ class Shader
         std::string sourceFilePath;
         std::string shaderSource;
         GLenum shaderType;
-        GLuint shader = 0;
         void importSourceFromFile(std::string &shaderSource, const std::string &sourceFilePath);
         void logCompilationError(const GLuint &shader);
     public:
+        GLuint shader = 0;
         Shader(GLenum shaderType, std::string sourceFilePath) :
             shaderType(shaderType),
             sourceFilePath(sourceFilePath) {};
         ~Shader();
+        void attachToProgram(GLuint program);
         bool compile();
-        GLuint getOGLHandle();
+        void detachFromProgram(GLuint program);
         void unload();
 };
 

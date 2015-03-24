@@ -38,6 +38,18 @@ void Shader::logCompilationError(const GLuint &shader)
     std::cout << std::endl;
 }
 
+void Shader::attachToProgram(GLuint program)
+{
+    if (program == 0) {
+        std::cout << "Tried to attach shader to null program. Aborting." << std::endl;
+        return;
+    } else if (shader == 0) {
+        std::cout << "Tried to attach null shader to program. Aborting." << std::endl;
+        return;
+    }
+    glAttachShader(program, shader);
+}
+
 bool Shader::compile()
 {
     //if we've already created a shader, unload it before we recompile
@@ -64,12 +76,21 @@ bool Shader::compile()
         return false;
     }
 
+    std::cout << "Shader during compile" << shader << std::endl;
+
     return true;
 }
 
-GLuint Shader::getOGLHandle()
+void Shader::detachFromProgram(GLuint program)
 {
-    return shader;
+    if (program == 0) {
+        std::cout << "Tried to detach shader from null program. Aborting." << std::endl;
+        return;
+    } else if (shader == 0) {
+        std::cout << "Tried to detach null shader from program. Aborting." << std::endl;
+        return;
+    }
+    glDetachShader(program, shader);
 }
 
 void Shader::unload()
