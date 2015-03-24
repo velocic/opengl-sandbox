@@ -90,6 +90,8 @@ void ProgramLinker::use()
 {
     glUseProgram(program);
     for (int i = 0; i < numAttributes; ++i) {
+        //BUG! glEnableVertexAttribArray causes GL ERROR CODE 1282
+        //(invalid operation) on OS X
         glEnableVertexAttribArray(i);
     }
 }
