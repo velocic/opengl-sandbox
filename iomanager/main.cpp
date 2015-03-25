@@ -14,7 +14,7 @@ int main()
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 
     //Open a window (and create a GL context)
     Window window("Shader loading!", 640, 480);
@@ -24,6 +24,9 @@ int main()
         return -1;
     }
 
+    GLuint vaoID = 0;
+    glGenVertexArrays(1, &vaoID);
+    glBindVertexArray(vaoID);
 
     Sprite sprite;
     sprite.init(-1.0f, -1.0f, 2.0f, 2.0f);
@@ -70,6 +73,8 @@ int main()
         //Show the rendered screen
         SDL_GL_SwapWindow(window.window);
     }
+
+    glBindVertexArray(0);
 
     SDL_Quit();
     return 0;
