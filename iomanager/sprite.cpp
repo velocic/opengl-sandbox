@@ -71,6 +71,5 @@ void Sprite::draw()
     //draw triangles, starting at the beginning of the array. draw 6 vertices
     glDrawArrays(GL_TRIANGLES, 0, 6);
     
-    glDisableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
