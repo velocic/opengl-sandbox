@@ -24,10 +24,6 @@ int main()
         return -1;
     }
 
-    GLuint vaoID = 0;
-    glGenVertexArrays(1, &vaoID);
-    glBindVertexArray(vaoID);
-
     Sprite sprite;
     sprite.init(-1.0f, -1.0f, 2.0f, 2.0f);
     Shader frag(GL_FRAGMENT_SHADER, "shaders/colorshading.frag");
@@ -73,8 +69,6 @@ int main()
         //Show the rendered screen
         SDL_GL_SwapWindow(window.window);
     }
-
-    glBindVertexArray(0);
 
     SDL_Quit();
     return 0;

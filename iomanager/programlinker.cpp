@@ -88,6 +88,11 @@ bool ProgramLinker::link()
 
 void ProgramLinker::use()
 {
+    if (vaoID == 0) {
+        glGenVertexArrays(1, &vaoID);
+    }
+
+    glBindVertexArray(vaoID);
     glUseProgram(program);
     for (int i = 0; i < numAttributes; ++i) {
         //BUG! glEnableVertexAttribArray causes GL ERROR CODE 1282
@@ -107,6 +112,7 @@ void ProgramLinker::unload()
 
 void ProgramLinker::unuse()
 {
+    glBindVertexArray(0);
     glUseProgram(0);
     for (int i = 0; i < numAttributes; ++i) {
         glDisableVertexAttribArray(i);

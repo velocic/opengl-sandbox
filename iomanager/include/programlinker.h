@@ -11,6 +11,7 @@ class ProgramLinker
     private:
         std::vector<Shader> shaders;
         GLuint program = 0;
+        GLuint vaoID = 0; //one VAO per program (for now. not sure if best practice)
         int numAttributes = 0;
         void compileAndAttachShaders(std::vector<Shader> &shaders, const GLuint &program);
         void detachAndUnloadShaders(std::vector<Shader> &shaders, const GLuint &program);
