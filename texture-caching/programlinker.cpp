@@ -112,9 +112,9 @@ void ProgramLinker::unload()
 
 void ProgramLinker::unuse()
 {
-    glBindVertexArray(0);
-    glUseProgram(0);
     for (int i = 0; i < numAttributes; ++i) {
         glDisableVertexAttribArray(i);
     }
+    glBindVertexArray(0);
+    glUseProgram(0);
 }
