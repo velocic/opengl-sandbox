@@ -6,6 +6,8 @@
 #include <shader.h>
 #include <programlinker.h>
 
+void computePositionOffsets(float &xOffset, float &yOffset);
+
 int main()
 {
     //init
@@ -33,9 +35,9 @@ int main()
     GLuint vbo = 0;
     GLuint vao = 0;
     float vertexPositions[] = {
-        0.75f, 0.75f, 0.0f, 1.0f,
-        0.75f, -0.75f, 0.0f, 1.0f,
-        -0.75f, -0.75f, 0.0f, 1.0f
+        0.3f, 0.3f, 0.0f, 1.0f,
+        0.3f, -0.3f, 0.0f, 1.0f,
+        -0.3f, -0.3f, 0.0f, 1.0f
     };
 
 
@@ -84,4 +86,12 @@ int main()
     SDL_DestroyWindow(window);
     SDL_Quit();
     return 0;
+}
+
+void computePositionOffsets(float &xOffset, float &yOffset)
+{
+    float loopDuration = 5.0f;
+    float scale = 3.14159f * 2.0f / loopDuration;
+
+    // float elapsedTime = 0;
 }
