@@ -64,6 +64,7 @@ int main()
     //get the index for our "offset" uniform variable in the vertex shader
     GLint loopDurationIndex = program.getUniformLocation("loopDuration");
     GLint timeIndex = program.getUniformLocation("time");
+    glUniform1f(loopDurationIndex, 5.0f);
 
     //"game" loop
     SDL_Event e;
@@ -80,7 +81,6 @@ int main()
         glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         // glUniform2f(offsetIndex, xOffset, yOffset);
-        glUniform1f(loopDurationIndex, 5.0f);
         glUniform1f(timeIndex, SDL_GetTicks() / 1000.0f);
         glDrawArrays(GL_TRIANGLES, 0, 3);
         SDL_GL_SwapWindow(window);
