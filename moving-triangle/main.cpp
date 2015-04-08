@@ -62,9 +62,8 @@ int main()
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
 
     //get the index for our "offset" uniform variable in the vertex shader
-    GLint offsetIndex = program.getUniformLocation("offset");
-    float xOffset = 0.0f;
-    float yOffset = 0.0f;
+    GLint loopDurationIndex = program.getUniformLocation("loopDuration");
+    GLint timeIndex = program.getUniformLocation("time");
 
     //"game" loop
     SDL_Event e;
@@ -76,11 +75,13 @@ int main()
                 userRequestedQuit = true;
             }
         }
-        computePositionOffsets(xOffset, yOffset);
+        // computePositionOffsets(xOffset, yOffset);
         //handle drawing
         glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-        glUniform2f(offsetIndex, xOffset, yOffset);
+        // glUniform2f(offsetIndex, xOffset, yOffset);
+        glUniform1f(loopDurationIndex, 5.0f);
+        glUniform1f(timeIndex, SDL_GetTicks() / 1000.0f);
         glDrawArrays(GL_TRIANGLES, 0, 3);
         SDL_GL_SwapWindow(window);
     }
