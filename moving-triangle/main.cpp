@@ -5,6 +5,7 @@
 #include <iostream>
 #include <shader.h>
 #include <programlinker.h>
+#include <cmath>
 
 void computePositionOffsets(float &xOffset, float &yOffset);
 
@@ -60,6 +61,11 @@ int main()
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
 
+    //get the index for our "offset" uniform variable in the vertex shader
+    GLint offsetIndex = program.getUniformLocation("offset");
+    float xOffset = 0.0f;
+    float yOffset = 0.0f;
+
     //"game" loop
     SDL_Event e;
     bool userRequestedQuit = false;
@@ -70,9 +76,11 @@ int main()
                 userRequestedQuit = true;
             }
         }
+        computePositionOffsets(xOffset, yOffset);
         //handle drawing
         glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+        glUniform2f(offsetIndex, xOffset, yOffset);
         glDrawArrays(GL_TRIANGLES, 0, 3);
         SDL_GL_SwapWindow(window);
     }
@@ -93,5 +101,10 @@ void computePositionOffsets(float &xOffset, float &yOffset)
     float loopDuration = 5.0f;
     float scale = 3.14159f * 2.0f / loopDuration;
 
-    // float elapsedTime = 0;
+    float elapsedTime = SDL_GetTicks() / 1000.0f;
+
+    float currTimeThroughLoop = fmodf(elapsedTime, loopDuration);
+
+    xOffset = cosf(currTimeThroughLoop * scale) * 0.5f;
+    yOffset = sinf(currTimeThroughLoop * scale) * 0.5f;
 }
