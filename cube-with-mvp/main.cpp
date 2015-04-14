@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <controls.h>
 
 int main()
 {
@@ -145,25 +146,20 @@ int main()
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 
-    //Build the model-view-projection matrix for this cube
-    glm::mat4 projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
-    glm::mat4 view = glm::lookAt(
-        glm::vec3(3,3,5), //camera location
-        glm::vec3(0,0,0), //looking at the origin
-        glm::vec3(0,1,0)  //looking upright
-    );
-    glm::mat4 model = glm::translate(glm::mat4(), glm::vec3()); //identity matrix. cube should center at (0,0,0) for now
-    
-    glm::mat4 mvpMatrix = projection * view * model;
-
-    //send mvpMatrix into the modelViewProjection uniform of the shader program
-    GLuint mvpUniform = program.getUniformLocation("modelViewProjection");
-
-    glUniformMatrix4fv(mvpUniform, 1, GL_FALSE, &mvpMatrix[0][0]);
 
     //event + draw loop
+    Controls controls;
     SDL_Event e;
     bool userRequestedQuit = false;
+    //set up mvp matrix variables
+    glm::mat4 projection;
+    glm::mat4 view;
+    glm::mat4 model;
+    glm::mat4 mvpMatrix;
+    GLuint mvpUniform = program.getUniformLocation("modelViewProjection");
+    //quick and hacky movement offsets
+    float xOffset = 0;
+    float zOffset = 5;
 
     while (!userRequestedQuit) {
         //handle events
@@ -172,7 +168,44 @@ int main()
                 userRequestedQuit = true;
             }
         }
- 
+
+        //quick and hacky calculation of move offsets
+        if (controls.getKeyStatus(Keys::Forward)) {
+            zOffset -= 0.1f;
+        }
+
+        if (controls.getKeyStatus(Keys::Back)) {
+            zOffset += 0.1f;
+        }
+
+        if (controls.getKeyStatus(Keys::Right)) {
+            xOffset += 0.1f;
+        }
+
+        if (controls.getKeyStatus(Keys::Left)) {
+            xOffset -= 0.1f;
+        }
+        //end calculating move offsets
+
+        //Build the model-view-projection matrix for this cube
+        projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
+        view = glm::lookAt(
+            // hard-coded debug projection-space
+            // glm::vec3(3,3,5), //camera location
+            // glm::vec3(0,0,0), //looking at the origin
+            // glm::vec3(0,1,0)  //looking upright
+            glm::vec3(xOffset, 0, zOffset), //camera location
+            glm::vec3(0, 0, 0), //looking at this point
+            glm::vec3(0, 1, 0) //looking upright
+        );
+        model = glm::translate(glm::mat4(), glm::vec3()); //identity matrix. cube should center at (0,0,0) for now
+        
+        mvpMatrix = projection * view * model;
+
+        //send mvpMatrix into the modelViewProjection uniform of the shader program once per screen re-draw
+        glUniformMatrix4fv(mvpUniform, 1, GL_FALSE, &mvpMatrix[0][0]);
+        //End MVP matrix building
+
         //draw screen
         glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
