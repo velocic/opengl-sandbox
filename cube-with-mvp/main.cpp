@@ -161,6 +161,9 @@ int main()
     float xOffset = 0;
     float zOffset = 5;
 
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+
     while (!userRequestedQuit) {
         //handle events
         while (SDL_PollEvent(&e)) {
@@ -208,7 +211,7 @@ int main()
 
         //draw screen
         glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glDrawArrays(GL_TRIANGLES, 0, 6*6);
         SDL_GL_SwapWindow(window);
     }
