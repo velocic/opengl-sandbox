@@ -159,7 +159,12 @@ int main()
     GLuint mvpUniform = program.getUniformLocation("modelViewProjection");
     //quick and hacky movement offsets
     float xOffset = 0;
-    float zOffset = 5;
+    float zOffset = 0;
+    float yOffset = 0;
+    float pan = 0;
+    float tilt = 0;
+    float previousMouseX = 0;
+    float previousMouseY = 0;
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
@@ -188,17 +193,45 @@ int main()
         if (controls.getKeyStatus(Keys::Left)) {
             xOffset -= 0.1f;
         }
+
+        if (controls.getKeyStatus(Keys::Ascend)) {
+            yOffset += 0.1f;
+        }
+
+        if (controls.getKeyStatus(Keys::Descend)) {
+            yOffset -= 0.1f;
+        }
+
+        if (e.motion.x > previousMouseX) {
+            pan += 0.1f;
+        }
+
+        if (e.motion.x < previousMouseX) {
+            pan -= 0.1f;
+        }
+
+        if (e.motion.y > previousMouseY) {
+            tilt += 0.1f;
+        }
+
+        if (e.motion.y < previousMouseY) {
+            tilt -= 0.1f;
+        }
+        previousMouseX = e.motion.x;
+        previousMouseY = e.motion.y;
+
+
         //end calculating move offsets
 
         //Build the model-view-projection matrix for this cube
         projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
         view = glm::lookAt(
             // hard-coded debug projection-space
-            // glm::vec3(3,3,5), //camera location
+            glm::vec3(xOffset,yOffset,zOffset+5), //camera location
             // glm::vec3(0,0,0), //looking at the origin
             // glm::vec3(0,1,0)  //looking upright
-            glm::vec3(xOffset, 0, zOffset), //camera location
-            glm::vec3(0, 0, 0), //looking at this point
+            // glm::vec3(xOffset, 0, zOffset), //camera location
+            glm::vec3(xOffset + pan, yOffset + tilt, zOffset), //looking at this point
             glm::vec3(0, 1, 0) //looking upright
         );
         model = glm::translate(glm::mat4(), glm::vec3()); //identity matrix. cube should center at (0,0,0) for now
