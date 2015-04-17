@@ -1,9 +1,13 @@
 #version 330
 
-in vec3 fragmentColor;
-out vec4 finalColor;
+in vec2 UV;
+out vec3 color;
+
+/* Values that stay constant for the whole mesh */
+uniform sampler2D myTextureSampler;
 
 void main()
 {
-    finalColor = vec4(fragmentColor, 1.0);
+    //Output color = color of the texture at the specified UV
+    color = texture(myTextureSampler, UV).rgb;
 }
