@@ -223,6 +223,8 @@ int main()
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
 
+    SDL_SetRelativeMouseMode(SDL_TRUE);
+
     while (!userRequestedQuit) {
         //handle events
         while (SDL_PollEvent(&e)) {

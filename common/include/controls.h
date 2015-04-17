@@ -22,13 +22,12 @@ class Controls
         void updateKeyboardState();
     public:
         Controls() :
-            keyboardState(std::vector<bool>(7)),
+            keyboardState(std::vector<bool>(6)),
             sdlKeyState(SDL_GetKeyboardState(NULL))
         {};
         bool userRequestedExit();
         const std::vector<bool> &getKeyboardState();
         bool getKeyStatus(int keyIndex);
-        void getMouseCoordinates(int &x, int &y);
 };
 
 #endif

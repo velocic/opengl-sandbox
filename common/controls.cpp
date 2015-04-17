@@ -29,8 +29,3 @@ bool Controls::getKeyStatus(int keyIndex)
     updateKeyboardState();
     return keyboardState[keyIndex];
 }
-
-void Controls::getMouseCoordinates(int &x, int &y)
-{
-    SDL_GetMouseState(x, y);
-}
