@@ -28,7 +28,7 @@ class Controls
         bool userRequestedExit();
         const std::vector<bool> &getKeyboardState();
         bool getKeyStatus(int keyIndex);
-        void getMouseCoordinates(int &x, int &y);
+        // void getMouseCoordinates(int &x, int &y);
 };
 
 #endif

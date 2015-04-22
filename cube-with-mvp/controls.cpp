@@ -30,7 +30,7 @@ bool Controls::getKeyStatus(int keyIndex)
     return keyboardState[keyIndex];
 }
 
-void Controls::getMouseCoordinates(int &x, int &y)
-{
-    SDL_GetMouseState(x, y);
-}
+// void Controls::getMouseCoordinates(int &x, int &y)
+// {
+//     SDL_GetMouseState(x, y);
+// }
